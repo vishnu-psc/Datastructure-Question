@@ -2,8 +2,16 @@ class Solution
 {
     public int findComplement(int num) 
     {
-        int bit = (int)Math.floor(Math.log(num)/Math.log(2))+1;
-        int bitMask = (1 << bit) - 1;
-        return bitMask ^ num;
+        int i = 0, ans = 0;
+        while(num != 0)
+        {
+            if((num&1) == 0)
+            {
+                ans += (int)Math.pow(2,i);
+            }
+            i++;
+            num = num >> 1;
+        }
+        return ans;
     }
 }
