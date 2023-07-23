@@ -21,16 +21,16 @@ class Solution
         
         dp.get(1).add(new TreeNode(0, null, null));
         
-        for(int i = 3; i <= n; i += 2)
+        for(int node = 1; node <= n; node += 2)
         {
-            for(int j = 1; j < i - 1; j += 2)
+            for(int j = 1; j < node - 1; j += 2)
             {  
                 for(TreeNode l: dp.get(j))
                 {
-                    for(TreeNode r: dp.get(i-j-1))
+                    for(TreeNode r: dp.get(node-j-1))
                     {
                         TreeNode root = new TreeNode(0, l, r);
-                        dp.get(i).add(root);
+                        dp.get(node).add(root);
                     }
                 }
             }
