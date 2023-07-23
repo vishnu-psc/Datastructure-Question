@@ -15,38 +15,37 @@
  */
 class Solution 
 {
-    private List<TreeNode> solve(int n)
+    private List<TreeNode> solve(int n, List<List<TreeNode>> dp)
     {
         if(n%2 == 0) return new ArrayList<TreeNode>();
-        if(n == 1) 
-        {
-            List<TreeNode> sn = new ArrayList<>();
-            sn.add(new TreeNode(0, null, null));
-            return sn;
-        }
         
-        List<TreeNode> result = new ArrayList<>();
+        dp.get(1).add(new TreeNode(0, null, null));
         
-        for(int i = 1; i < n; i += 2)
+        for(int i = 3; i <= n; i += 2)
         {
-            List<TreeNode> leftFBT = solve(i);
-            List<TreeNode> rightFBT = solve(n-i-1);
-            
-            for(TreeNode l: leftFBT)
-            {
-                for(TreeNode r: rightFBT)
+            for(int j = 1; j < i - 1; j += 2)
+            {  
+                for(TreeNode l: dp.get(j))
                 {
-                    TreeNode root = new TreeNode(0, l, r);
-                    result.add(root);
+                    for(TreeNode r: dp.get(i-j-1))
+                    {
+                        TreeNode root = new TreeNode(0, l, r);
+                        dp.get(i).add(root);
+                    }
                 }
             }
         }
-        return result;
+        return dp.get(n);
             
     }
     
     public List<TreeNode> allPossibleFBT(int n) 
     {
-        return solve(n);
+        List<List<TreeNode>> dp = new ArrayList<>();
+        for(int i = 0; i <= n; i++)
+        {
+            dp.add(new ArrayList<>());
+        }
+        return solve(n, dp);
     }
 }
