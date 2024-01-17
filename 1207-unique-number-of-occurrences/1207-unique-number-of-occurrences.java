@@ -1,9 +1,9 @@
-class Solution 
-{
+class Solution {
     public boolean uniqueOccurrences(int[] arr) 
     {
+        int n = arr.length;
         Map<Integer, Integer> map = new HashMap<>();
-        for(int i = 0; i < arr.length; i++)
+        for(int i = 0; i < n; i++)
         {
             if(map.containsKey(arr[i]))
             {
@@ -15,11 +15,14 @@ class Solution
             }
         }
         
-        Set<Integer> set = new HashSet<>();
+        Set<Integer> a = new HashSet<>();
+        Set<Integer> b = new HashSet<>();
+        
         for(Map.Entry<Integer, Integer> i: map.entrySet())
         {
-            if(!set.add(i.getValue())) return false;
+            a.add(i.getKey());
+            b.add(i.getValue());
         }
-        return true;
+        return a.size() == b.size();
     }
 }
