@@ -18,7 +18,7 @@ class Solution
                 if(s1.charAt(i-1) == s2.charAt(j-1)) curr[j] = 1 + prev[j-1];
                 else curr[j] = Math.max(prev[j], curr[j-1]);
             }
-            for(int k = 0 ; k <= m; k++) prev[k] = curr[k];
+            prev = curr.clone();
         }
         return prev[m];   
     }
