@@ -3,20 +3,20 @@ class Solution
     public int[] findErrorNums(int[] nums) 
     {
         int n = nums.length;
-        int[] res = new int[2];
-        int nsum = (n*(n+1))/2;
-        int asum = 0;
-        int usum = 0;
-        var s = new HashSet<Integer>();
+        int duplicate = 0, missing = 0;
         
-        for(int i = 0; i < n; i++) s.add(nums[i]);
-        for(int i: s) usum += i;
-        for(int i: nums) asum += i;
+        Map<Integer, Integer> m = new HashMap<>();
+        for(int i = 1; i <= n; i++) m.put(i, 0);
         
-        res[0] = asum - usum;
-        res[1] = nsum - usum;
+        for(int i = 0; i < n; i++) m.put(nums[i], m.get(nums[i])-1);
         
-        return res;
+        for(var i: m.entrySet())
+        {
+            if(i.getValue() == -2) duplicate = i.getKey();
+            if(i.getValue() == 0) missing = i.getKey();
+        }
+        
+        return new int[]{duplicate, missing};
         
     }
 }
