@@ -4,16 +4,17 @@ class Solution
     {
         int n = nums.length;
         int[] res = new int[2];
+        int nsum = (n*(n+1))/2;
+        int asum = 0;
+        int usum = 0;
+        var s = new HashSet<Integer>();
         
-        int[] freq = new int[n+1];
+        for(int i = 0; i < n; i++) s.add(nums[i]);
+        for(int i: s) usum += i;
+        for(int i: nums) asum += i;
         
-        for(int i = 0; i < n; i++) freq[nums[i]]++;
-        
-        for(int i = 0; i <= n; i++)
-        {
-            if(freq[i] == 2) res[0] = i;
-            if(freq[i] == 0) res[1] = i;
-        }
+        res[0] = asum - usum;
+        res[1] = nsum - usum;
         
         return res;
         
