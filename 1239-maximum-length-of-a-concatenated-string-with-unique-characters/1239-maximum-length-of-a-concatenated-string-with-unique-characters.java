@@ -1,37 +1,48 @@
 class Solution 
 {
-    public boolean isUnique(String str)
+    public int setBit(int n)
     {
-        Set<Character> s = new HashSet<>();
-        for(int i = 0; i < str.length(); i++)
+        int count = 0;
+        for(int i = 0; i < 32; ++i)
         {
-            char c = str.charAt(i); 
-            if(s.contains(c)) return false;
-            else s.add(c);
+            if((n & 1) == 1) count++;
+            n = n>>1;
         }
-        return true;
+        return count;
     }
     
-    public int dfs(List<String> arr, int n, String res)
-    {
-        if(n < 0) return res.length();
-        
-        int take = 0, leave = 0;
-        if(isUnique(res + arr.get(n)))
+    public void solve(int idx, int temp, int[] result,  List<Integer> l)
+    { 
+        result[0] = Math.max(result[0], setBit(temp));
+        for(int i = idx; i < l.size(); i++)
         {
-            leave = dfs(arr, n-1, res);
-            take = dfs(arr, n-1, res+arr.get(n));
+            if((temp & l.get(i)) == 0) solve(i+1, (temp | l.get(i)), result, l);
         }
-        else
-            leave = dfs(arr, n-1, res);
-        
-        return Math.max(take, leave);
     }
     
     public int maxLength(List<String> arr) 
     {
-        int n = arr.size();
-        return dfs(arr, n-1, "");
+        List<Integer> unqSub = new ArrayList<>();
+        
+        for(String s: arr)
+        {
+            Set<Character> set = new HashSet<>();
+            for(int i = 0; i < s.length(); i++) set.add(s.charAt(i));
+            
+            if(set.size() != s.length()) continue;
+            
+            int val = 0;
+            
+            for(char ch: set)
+            {
+                val = val | 1 << ((ch - 'a') ); 
+            }
+            
+            unqSub.add(val);
+        }
+        int temp = 0;
+        int[] result = {0};
+        solve(0, temp, result, unqSub);
+        return result[0];
     }
-    
 }
