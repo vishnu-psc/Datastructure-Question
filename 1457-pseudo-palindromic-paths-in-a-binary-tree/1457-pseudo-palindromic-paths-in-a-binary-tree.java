@@ -27,28 +27,31 @@ class Solution
         return false;
     }
     
-    public void back(TreeNode root, int[] arr, int[] result)
+    public void back(TreeNode root, int val, int[] result)
     {
         if(root != null)
         {
-            arr[root.val]++;
+            // arr[root.val]++;
+            val = val^(1 << root.val);
             
             if(root.left == null && root.right == null)
             {
-                if(checkPalindrome(arr))
-                    result[0]++;
+                // if(checkPalindrome(arr))
+                //     result[0]++;
+                if((val&(val-1)) == 0) result[0]++;
+                
             }
-            back(root.left, arr, result);
-            back(root.right, arr, result);
-            arr[root.val]--;
+            back(root.left, val, result);
+            back(root.right, val, result);
+            //arr[root.val]--;
         }
     }
     
     public int pseudoPalindromicPaths (TreeNode root) 
     {
-        int[] arr = new int[10];
+        // int[] arr = new int[10];
         int[] result = {0};
-        back(root, arr, result);   
+        back(root, 0, result);   
         return result[0];
     }
 }
