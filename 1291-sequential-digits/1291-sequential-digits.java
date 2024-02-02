@@ -1,23 +1,29 @@
-class Solution
-{
+class Solution {
     public List<Integer> sequentialDigits(int low, int high) 
     {
+        Queue<Integer> q = new LinkedList<>();
+        for(int i = 1; i <= 8; i++)
+        {
+            q.add(i);
+        }
         List<Integer> l = new ArrayList<>();
         
-        for(int i = 1; i <= 9; i++)
+        while(!q.isEmpty())
         {
-            int num = i;
-            int next = i+1;
-            while(next <= 9 && num <= high)
+            int temp = q.peek();
+            q.poll();
+            if(temp >= low && temp <= high)
             {
-                num = num*10 + next;
-                if(num >= low && num <= high)
-                    l.add(num);
-                ++next;
+                l.add(temp);
+            }
+            
+            int last = temp %10;
+            if(last + 1 < 10)
+            {
+                q.add(temp*10 + last+1);
             }
         }
-        l.sort(null);
-        
         return l;
+        
     }
 }
