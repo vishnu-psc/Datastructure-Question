@@ -2,22 +2,15 @@ class Solution
 {
     public int firstUniqChar(String s) 
     {
-        int n = s.length();
-        int[] occ = new int[26];
-        for(int i = 0; i < n; i++)
+        int index = Integer.MAX_VALUE;
+        for(char ch = 'a'; ch <= 'z'; ch++)
         {
-            occ[s.charAt(i) - 'a']++;
-        }
-        
-        int index = -1;
-        for(int i = 0; i < n; i++)
-        {
-            if(occ[s.charAt(i) - 'a'] == 1) 
+            int c = s.indexOf(ch);
+            if(c != -1 && c == s.lastIndexOf(ch))
             {
-                index = i;
-                break;
+                index = Math.min(index, c);
             }
         }
-        return index;
+        return index == Integer.MAX_VALUE ? -1: index;
     }
 }
