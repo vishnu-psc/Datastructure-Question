@@ -1,39 +1,33 @@
 class Solution 
-{   public boolean areAnagram(String s, String t)
+{
+    public String sort(String s)
     {
-        if(s.equals("A") || t.equals("A")) return false;
-        if(s.length() != t.length()) return false;
-        int n = s.length();
-        int[] arr = new int[26];
-        for(int i = 0; i < n; i++)
-        {
-            arr[s.charAt(i)-'a']++;
-            arr[t.charAt(i)-'a']--;
-        }
-        for(int i = 0; i < 26; i++)
-        {
-            if(arr[i] != 0) return false;
-        }
-        return true;
+        char[] temp = s.toCharArray();
+        Arrays.sort(temp);
+        return new String(temp);
     }
+    
     public List<List<String>> groupAnagrams(String[] strs) 
     {
-        List<List<String>> res = new ArrayList<>();
         int n = strs.length;
-        for(int i = 0; i < n ; i++)
+        List<List<String>> result = new ArrayList<>();
+        
+        Map<String, List<String>> map = new HashMap<>();
+        
+        for(int i = 0; i < n; i++)
         {
-            List<String> l = new ArrayList<>();
-            if(!strs[i].equals("A")) l.add(strs[i]);
-            for(int j = i + 1; j < n; j++)
-            {
-                if(areAnagram(strs[i], strs[j]))
-                {
-                    l.add(strs[j]);
-                    strs[j] = "A";
-                }
-            }
-            if(!l.isEmpty()) res.add(l);
+            String temp = strs[i];
+            
+            String sortedStr = sort(temp);
+            
+            map.put(sortedStr, map.getOrDefault(sortedStr, new ArrayList<>()));
+            map.get(sortedStr).add(strs[i]);
         }
-        return res;
+        //System.out.println(map);
+        for(Map.Entry<String, List<String>> i: map.entrySet())
+        {
+            result.add(i.getValue());
+        }
+        return result;
     }
 }
