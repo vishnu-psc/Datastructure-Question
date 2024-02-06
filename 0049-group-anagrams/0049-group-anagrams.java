@@ -1,33 +1,47 @@
 class Solution 
 {
-    public String sort(String s)
+    public String generate(String s)
     {
-        char[] temp = s.toCharArray();
-        Arrays.sort(temp);
-        return new String(temp);
+        int n = s.length();
+        int[] arr = new int[26];
+        String res ="";
+        for(int i = 0; i < n; i++)
+        {
+            arr[s.charAt(i) - 'a']++;
+        }
+        
+        for(int i = 0; i < 26; i++)
+        {
+            if(arr[i] > 0)
+            {
+                String temp = "" + (char)('a' + i);
+                res += temp.repeat(arr[i]);
+                 
+            }
+        }
+        return res;
     }
     
-    public List<List<String>> groupAnagrams(String[] strs) 
-    {
+    public List<List<String>> groupAnagrams(String[] strs) {
         int n = strs.length;
-        List<List<String>> result = new ArrayList<>();
-        
         Map<String, List<String>> map = new HashMap<>();
+        
+        List<List<String>> result = new ArrayList<>();
         
         for(int i = 0; i < n; i++)
         {
-            String temp = strs[i];
+            String word = strs[i];
+            String temp = generate(word);
             
-            String sortedStr = sort(temp);
-            
-            map.put(sortedStr, map.getOrDefault(sortedStr, new ArrayList<>()));
-            map.get(sortedStr).add(strs[i]);
+            map.put(temp, map.getOrDefault(temp, new ArrayList<>()));
+            map.get(temp).add(word);
         }
-        //System.out.println(map);
+        
         for(Map.Entry<String, List<String>> i: map.entrySet())
         {
             result.add(i.getValue());
         }
+        
         return result;
     }
 }
