@@ -1,20 +1,21 @@
-class Solution 
+class Solution
 {
+    public int solve(int n, int[] dp)
+    {
+        if(n == 0) return 0;
+        if(dp[n] != 0) return dp[n];
+        int minCount = Integer.MAX_VALUE;
+        for(int i = 1; i*i <= n; i++)
+        {
+            int result = (1 + solve(n - i*i, dp));
+            minCount = Math.min(minCount, result);
+        }
+        return dp[n] = minCount;
+    }
+    
     public int numSquares(int n) 
     {
         int[] dp = new int[n+1];
-        Arrays.fill(dp, n);
-        dp[0] = 0;
-        dp[1] = 1;
-        
-        for(int i = 1; i <= n; i++)
-        {
-            for(int j = 1; j*j <= i; j++)
-            {
-                if(i - j*j >= 0)
-                    dp[i] = Math.min(dp[i - j*j] + 1, dp[i]);
-            }
-        }
-        return dp[n];
+        return solve(n, dp);
     }
 }
