@@ -2,32 +2,30 @@ class Solution
 {
     public int[] intersection(int[] nums1, int[] nums2) 
     {
-        Set<Integer> s = new HashSet<>();
-        int n = nums1.length;
-        int m = nums2.length;
+        int[] freq = new int[1001];
+        for(int i: nums1) freq[i] = 1;
         
-        Arrays.sort(nums1);
-        Arrays.sort(nums2);
+        int resSize = 0;
         
-        int i = 0, j = 0; 
-        while(i < n && j < m)
+        for(int i: nums2)
         {
-            if(nums1[i] == nums2[j])
+            if(freq[i] == 1)
             {
-                s.add(nums1[i]);
-                i++;
-                j++;
+                freq[i] = 2;
+                resSize++;
             }
-            else if(nums1[i] < nums2[j]) i++;
-            else j++;
         }
         
-        i= 0;
-        int[] ans = new int[s.size()];
-        for(int k: s)
+        int[] res = new int[resSize];
+        int i = 0;
+        for(int j: nums1)
         {
-            ans[i++] = k; 
+            if(freq[j] == 2)
+            {
+                res[i++] = j;
+                freq[j] = 1;
+            }
         }
-        return ans;
+        return res;
     }
 }
