@@ -3,16 +3,24 @@ class Solution
     public int numSubarraysWithSum(int[] nums, int goal) 
     {
         int n = nums.length;
-        int count = 0;
-        for(int i = 0; i < n; i++)
+        int currentSum = 0, totalCount = 0;
+        
+        Map<Integer, Integer> mp = new HashMap<>();
+        for(int i =0 ; i < n; i++)
         {
-            int sum = 0;
-            for(int j = i; j < n; j++)
+            currentSum += nums[i];
+            if(currentSum == goal) totalCount++;
+            
+            if(mp.containsKey(currentSum - goal))
             {
-                sum += nums[j];
-                if(sum == goal) count++;
+                totalCount += mp.get(currentSum - goal);
             }
+            
+            mp.put(currentSum, mp.getOrDefault(currentSum, 0) + 1);
         }
-        return count;
+        
+        
+        
+        return totalCount;
     }
 }
