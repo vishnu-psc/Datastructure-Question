@@ -4,20 +4,26 @@ class Solution
     {
         int n = nums.length;
         int[] prefix = new int[n];
+        int[] suffix = new int[n];
         
-        int temp = 1;
+        int pr = 1, su = 1;
         
         for(int i = 0; i < n; i++)
         {
-            prefix[i] = temp;
-            temp = temp*nums[i];
+            prefix[i] = pr;
+            pr = pr*nums[i];
+            
         }
-        temp = 1;
         
         for(int i = n-1; i >= 0; i--)
         {
-            prefix[i] = temp*prefix[i];
-            temp = temp*nums[i];
+            suffix[i] = su;
+            su = su*nums[i];
+        }
+        
+        for(int i = 0; i < n; i++)
+        {
+            prefix[i] = prefix[i]*suffix[i];
         }
         return prefix;
     }
