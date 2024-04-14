@@ -13,23 +13,24 @@
  *     }
  * }
  */
-class Solution 
-{
-    int sum = 0;
-    public int sumOfLeftLeaves(TreeNode root) 
-    {
-        dfs(root);    
-        return sum;
+class Solution {
+    public int sumOfLeftLeaves(TreeNode root) {
+        return dfs(root, false);
     }
-    public void dfs(TreeNode root)
+    
+    public int dfs(TreeNode root, boolean isLeft)
     {
-        if(root == null) return;
-        if(root.left != null)
+        if(root == null) return 0;
+        
+        if(root.left == null && root.right == null)
         {
-            if(root.left.left == null && root.left.right == null)
-                sum += root.left.val;
-            dfs(root.left);
+            if(isLeft) return root.val;
+            else return 0;
         }
-        if(root.right != null) dfs(root.right);
+        
+        int left = dfs(root.left, true);
+        int right = dfs(root.right, false);
+        
+        return left+right;
     }
 }
